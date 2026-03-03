@@ -13,8 +13,13 @@ use App\Http\Middleware\LogAcessoMiddleware;
 |
 */
 
-Route::get('/', [App\Http\Controllers\Principal::class, 'principal']);
 
+Route::get('/', [App\Http\Controllers\Principal::class, 'paginaPrincipal']); //função -> Camel Case
+Route::get('/sobre', [App\Http\Controllers\Principal::class, 'sobre'])->name('sobre');
+Route::get('/contato', [App\Http\Controllers\Principal::class, 'contato'])->name('contato');
+Route::get('/desenvolvimento-sistemas', [App\Http\Controllers\Principal::class, 'desenvolvimentoSistemas'])->name('desenvolvimento-sistemas'); //função -> Camel Case
+Route::get('/meio-ambiente', [App\Http\Controllers\Principal::class, 'meioAmbiente'])->name('meio-ambiente'); //função -> Camel Case
+Route::get('/administracao', [App\Http\Controllers\Principal::class, 'administracao'])->name('administracao');
 
 
 
