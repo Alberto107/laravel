@@ -13,8 +13,8 @@ use App\Http\Middleware\LogAcessoMiddleware;
 |
 */
 
-Route::get('/', [App\Http\Controllers\Principal::class, 'principal']);
-
+Route::get('/', [App\Http\Controllers\Principal::class, 'index'])->name('principal');
+Route::get('/sobre', [App\Http\Controllers\Sobre::class, 'sobre'])->name('sobre');
 
 
 
