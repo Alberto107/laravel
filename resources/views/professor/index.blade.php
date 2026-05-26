@@ -9,14 +9,16 @@
 
         <label for="telefone">Telefone</label>
         <input type="text" name="telefone" id="telefone">
+
+        <button type="submit">Enviar</button>
         
         @isset($success)
             <h1>{{ $success }}</h1>
         @endisset
     </form>
 
-    @isset(professores)
-            @foreach(professores as professor)
+    @isset($professores)
+            @foreach($professores as $professor)
                 <h3>{{ professor->nome }}</h3>
                 <h3>{{ professor->email }}</h3>
                 <h3>{{ professor->telefone }}</h3>
