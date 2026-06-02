@@ -16,8 +16,20 @@
 
     @isset($cursos)
             @foreach($cursos as $curso)
-                <h3>{{ $curso->nome }}</h3>
-                <h3>{{ $curso->periodo }}</h3>
+            <tr>
+                <td>
+                    <h3>{{ $curso->nome }}</h3>
+                    <h3>{{ $curso->periodo }}</h3>
+                </td>
+                <td>
+                    <form action="{{ route('curso.remove', ['id' => $curso->id]) }}" method="GET">
+                                <button type="submit">Remover</button>
+                    </form>
+                </td>
+                <td>
+                    <button type="submit">Atualizar</button>
+                </td>
+            </tr>
             @endforeach
     @endisset
     

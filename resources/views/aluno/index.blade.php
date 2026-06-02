@@ -13,7 +13,19 @@
 
     @isset($alunos)
             @foreach($alunos as $aluno)
-                <h3>{{ $aluno->nome }}</h3>
+            <tr>
+                <td>
+                    <h3>{{ $aluno->nome }}</h3>
+                </td>
+                <td>
+                    <form action="{{ route('aluno.remove', ['id' => $aluno->id]) }}" method="GET">
+                                <button type="submit">Remover</button>
+                    </form>
+                </td>
+                <td>
+                    <button type="submit">Atualizar</button>
+                </td>
+            </tr>
             @endforeach
     @endisset
     
