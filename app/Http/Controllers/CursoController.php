@@ -7,19 +7,30 @@ use Illuminate\Http\Request;
 class CursoController extends Controller
 {
     function index(){ 
-        return view('curso.index');
+        $curso = new \App\Models\CursoModel();
+
+        return view('curso.index', ['cursos'=>$curso::all()]);
     }
 
     function add(Request $dados) { 
-        $curso = new \App\Models\CursoModel();
-        $curso::create($dados->all());
+        $validator = Validator::make(
+		      $dados->all(),
+	            [
+	                'nome' => 'required|min:3|max:255',
+	            ],
+	            [
+	                'nome.required' => 'O campo nome é obrigatório.',
+	                'nome.min' => 'O campo nome deve conter no mínimo 3 caracteres.',
+	                'nome.max' => 'O campo nome deve conter no máximo 255 caracteres.',
+	            ]
+        );
 
-        //RECUPERANDO TODOS ALUNOS DO BANCO E ENVIANDO PARA A VIEW
-				
-        $cursos = new \App\Models\CursoModel();
-
-        return view('curso.index', ['success'=>'Cadastrado!', 'cursos'=>$cursos::all()]);
-    }
+        if ($validator->fails()) {
+            return redirect()
+                ->route('curso.index')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
     function remove(string $id) {
         $curso = new \App\Models\CursoModel();
@@ -28,4 +39,20 @@ class CursoController extends Controller
         return view('curso.index', ['success'=>'Removido!', 'cursos'=>$curso::all()]);
 
     }
+
+    function atualizar(string $id) {
+        $curso = new \App\Models\CursoModel();
+        $curso = $curso::find($id);
+
+        return view('curso.atualizar', ['curso'=>$curso]);
+    }
+
+    function save(Request $dados) {
+        $curso = new \App\Models\CursoModel();
+        $curso = $curso::find($dados->id);
+        $curso->update($dados->all());
+
+        return view('curso.index', ['success'=>'Atualizado!', 'cursos'=>$curso::all()]);
+    }
+}
 }

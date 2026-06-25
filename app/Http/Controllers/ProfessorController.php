@@ -7,20 +7,32 @@ use Illuminate\Http\Request;
 
 class ProfessorController extends Controller
 {
+
     function index(){ 
-        return view('professor.index');
+        $professor = new \App\Models\ProfessorModel();
+
+        return view('professor.index', ['professores'=>$professor::all()]);
     }
 
     function add(Request $dados) { 
-        $professor = new \App\Models\ProfessorModel();
-        $professor::create($dados->all());
+        $validator = Validator::make(
+		      $dados->all(),
+	            [
+	                'nome' => 'required|min:3|max:255',
+	            ],
+	            [
+	                'nome.required' => 'O campo nome é obrigatório.',
+	                'nome.min' => 'O campo nome deve conter no mínimo 3 caracteres.',
+	                'nome.max' => 'O campo nome deve conter no máximo 255 caracteres.',
+	            ]
+        );
 
-        //RECUPERANDO TODOS ALUNOS DO BANCO E ENVIANDO PARA A VIEW
-				
-        $professores = new \App\Models\ProfessorModel();
-
-        return view('professor.index', ['success'=>'Cadastrado!', 'professores'=>$professores::all()]);
-    }
+        if ($validator->fails()) {
+            return redirect()
+                ->route('professor.index')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
     function remove(string $id) {
         $professor = new \App\Models\ProfessorModel();
@@ -29,4 +41,20 @@ class ProfessorController extends Controller
         return view('professor.index', ['success'=>'Removido!', 'professores'=>$professor::all()]);
 
     }
+
+    function atualizar(string $id) {
+        $professor = new \App\Models\ProfessorModel();
+        $professor = $professor::find($id);
+
+        return view('professor.atualizar', ['professor'=>$professor]);
+    }
+
+    function save(Request $dados) {
+        $professor = new \App\Models\ProfessorModel();
+        $professor = $professor::find($dados->id);
+        $professor->update($dados->all());
+
+        return view('professor.index', ['success'=>'Atualizado!', 'professores'=>$professor::all()]);
+    }
+}
 }
