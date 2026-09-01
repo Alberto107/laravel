@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LogAcesso extends Model
+class ContatoModel extends Model
 {
     use HasFactory;
-    protected $table = 'log_acessos';
-    protected $fillable = ['log'];
+    protected $table = 'contato';
+    protected $fillable = ['nome', 'email'];
 }
